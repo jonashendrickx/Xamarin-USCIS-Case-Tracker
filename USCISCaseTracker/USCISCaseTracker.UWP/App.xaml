@@ -27,9 +27,7 @@
                 <Setter Property="Background" Value="{StaticResource ResourceKey=UnitedStatesRed}" />
                 <Setter Property="Padding" Value="10,10,10,20" />
             </Style>
-
-
-
+            
             <Style x:Key="SplitViewStyle" TargetType="SplitView">
                 <Setter Property="CompactPaneLength" Value="50"/>
                 <Setter Property="OpenPaneLength" Value="150" />

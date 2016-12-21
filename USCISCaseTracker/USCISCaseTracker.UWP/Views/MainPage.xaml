@@ -15,18 +15,14 @@
                         <ColumnDefinition Width="auto" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <Button Width="50" Height="50" Click="HamburgerButton_Click" Grid.Column="0" Foreground="White" Content="&#xE700;" FontFamily="Segoe MDL2 Assets">
+                    <Button Width="50" Height="50" Click="HamburgerButton_Click" Grid.Column="0" Foreground="White" Background="Transparent" Content="&#xE700;" FontFamily="Segoe MDL2 Assets">
                     </Button>
 
                     <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="1" Click="HomeButton_Click" Background="Transparent">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Horizontal">
                             <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE80F;" Style="{StaticResource SplitViewTextBlockStyle}" />
                             <TextBlock Text="Home" Grid.Column="1" Margin="10,0,0,0" Style="{StaticResource SplitViewTextBlockStyle}" />
-                        </Grid>
+                        </StackPanel>
                     </Button>
                 </Grid>
 
