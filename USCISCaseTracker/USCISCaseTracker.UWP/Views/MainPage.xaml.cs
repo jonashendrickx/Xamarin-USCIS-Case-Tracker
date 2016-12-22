@@ -4,6 +4,7 @@ using USCISCaseTracker.Repositories;
 using USCISCaseTracker.Services;
 using USCISCaseTracker.UWP.Shared.Services;
 using USCISCaseTracker.UWP.ViewModels;
+using USCISCaseTracker.UWP.ViewModels.CaseViewModels;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -41,8 +42,20 @@ namespace USCISCaseTracker.UWP.Views
             var result = await dlg.ShowAsync();
             if (result == ContentDialogResult.Primary)
             {
-                var newCase = (Case)dlg.DataContext;
+                var caseViewModel = (CaseAddViewModel)dlg.DataContext;
+
+                var valid = caseViewModel.Errors.ValidateProperties();
+
+                if (!valid)
+                    return; // no valid model
+
                 CaseRepository repo = new CaseRepository(LocalDbConnectionService.Connect());
+
+                var newCase = new Case()
+                {
+                    Name = caseViewModel.Name,
+                    ReceiptNumber = caseViewModel.ReceiptNumber
+                };
                 newCase.Id = repo.Save(newCase);
 
                 if (newCase.Id != 0)

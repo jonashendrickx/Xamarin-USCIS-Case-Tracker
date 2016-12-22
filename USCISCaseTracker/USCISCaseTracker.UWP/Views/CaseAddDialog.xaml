@@ -4,7 +4,8 @@
     xmlns:local="using:USCISCaseTracker.UWP.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:Models="using:USCISCaseTracker.Models"
+    xmlns:Models="USCISCaseTracker.UWP.ViewModels.CaseViewModels"
+    xmlns:ViewModels="using:USCISCaseTracker.UWP.ViewModels.CaseViewModels"
     x:Class="USCISCaseTracker.UWP.Views.CaseAddDialog"
     mc:Ignorable="d"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
@@ -12,13 +13,14 @@
     SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
     SecondaryButtonText="Cancel"
     Title="Add case">
-
+    
     <ContentDialog.DataContext>
-        <Models:Case/>
+        <ViewModels:CaseAddViewModel />
     </ContentDialog.DataContext>
 
     <StackPanel>
         <TextBox Text="{Binding Name, Mode=TwoWay}" Header="Name" />
-        <TextBox Text="{Binding ReceiptNumber, Mode=TwoWay}" Header="Receipt number" />
+        <TextBox Text="{Binding ReceiptNumber, Mode=TwoWay}" Header="Receipt number" MaxLength="13" />
+        <TextBlock Text="{Binding Errors[ReceiptNumber][0]}" Foreground="Red" />
     </StackPanel>
 </ContentDialog>
