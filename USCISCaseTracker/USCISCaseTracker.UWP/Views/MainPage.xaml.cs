@@ -87,6 +87,12 @@ namespace USCISCaseTracker.UWP.Views
             {
                 var uscisSvc = new USCISService();
                 var onlineCase = await uscisSvc.GetCaseStatusAsync(c.ReceiptNumber);
+
+                if (onlineCase == null)
+                {
+                    continue;
+                }
+
                 c.Status = onlineCase.Status;
                 c.Description = onlineCase.Description;
                 c.LastSyncedDate = onlineCase.LastSyncedDate;
