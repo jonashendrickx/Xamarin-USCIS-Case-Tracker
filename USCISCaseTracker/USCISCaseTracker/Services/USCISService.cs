@@ -31,9 +31,9 @@ namespace USCISCaseTracker.Services
                     return DecodeHtml(receipt_number, html);
                 }
             }
-            catch (Exception ex)
+            catch (HttpRequestException ex)
             {
-                System.Diagnostics.Debug.WriteLine($"@\t{0}", ex.Message);
+                
             }
             return null;
         }

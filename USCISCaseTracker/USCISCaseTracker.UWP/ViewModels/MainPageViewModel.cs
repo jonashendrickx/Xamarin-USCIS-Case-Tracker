@@ -48,7 +48,7 @@ namespace USCISCaseTracker.UWP.ViewModels
                 SystemCondition lowCpu = new SystemCondition(SystemConditionType.BackgroundWorkCostNotHigh);
                 builder.AddCondition(internetCondition);
                 builder.AddCondition(lowCpu);
-                var timeTrigger = new TimeTrigger(15, false);
+                var timeTrigger = new TimeTrigger(180, false);
                 builder.SetTrigger(timeTrigger);
 
                 builder.Register();
