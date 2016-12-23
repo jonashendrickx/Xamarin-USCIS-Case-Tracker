@@ -11,9 +11,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "USCISCaseTracker", "USCISCa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "USCISCaseTracker.UWP", "USCISCaseTracker\USCISCaseTracker.UWP\USCISCaseTracker.UWP.csproj", "{5ECB91E5-6466-4349-850F-199D7D691A42}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "USCISCaseTracker.UWP.Background", "USCISCaseTracker.UWP.Background\USCISCaseTracker.UWP.Background.csproj", "{58733DD6-1C6F-4FD7-B835-B13FEDE26C32}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "USCISCaseTracker.UWP.Background", "USCISCaseTracker\USCISCaseTracker.UWP.Background\USCISCaseTracker.UWP.Background.csproj", "{58733DD6-1C6F-4FD7-B835-B13FEDE26C32}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "USCISCaseTracker.UWP.Shared", "USCISCaseTracker.UWP.Shared\USCISCaseTracker.UWP.Shared.csproj", "{AF4E577C-0313-4B7E-B35C-56FC91B89979}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "USCISCaseTracker.UWP.Shared", "USCISCaseTracker\USCISCaseTracker.UWP.Shared\USCISCaseTracker.UWP.Shared.csproj", "{AF4E577C-0313-4B7E-B35C-56FC91B89979}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
