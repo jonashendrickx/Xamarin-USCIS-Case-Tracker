@@ -113,7 +113,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\USCISCaseTracker.UWP.Shared\USCISCaseTracker.UWP.Shared.csproj">
-      <Project>{AF4E577C-0313-4B7E-B35C-56FC91B89979}</Project>
+      <Project>{af4e577c-0313-4b7e-b35c-56fc91b89979}</Project>
       <Name>USCISCaseTracker.UWP.Shared</Name>
     </ProjectReference>
     <ProjectReference Include="..\USCISCaseTracker\USCISCaseTracker.csproj">
