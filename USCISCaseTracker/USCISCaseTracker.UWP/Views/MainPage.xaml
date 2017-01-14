@@ -48,6 +48,7 @@
             <AppBarButton Icon="Add" Click="AddAppBarButton_Click" Style="{StaticResource AppBarButtonStyle}" />
             <AppBarButton x:Name="DeleteAppBarButton" Icon="Delete" Visibility="Collapsed" Click="DeleteAppBarButton_Click" Style="{StaticResource AppBarButtonStyle}" />
             <AppBarButton Icon="Refresh" Click="RefreshAppBarButton_Click" Style="{StaticResource AppBarButtonStyle}" />
+            <AppBarButton Icon="Setting" Click="SettingAppBarButton_Click" Style="{StaticResource AppBarButtonStyle}" />
         </CommandBar>
     </Page.BottomAppBar>
 </Page>

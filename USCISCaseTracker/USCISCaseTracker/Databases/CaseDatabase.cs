@@ -41,15 +41,14 @@ namespace USCISCaseTracker.Databases
         {
             lock (locker)
             {
+                item.LastModifiedDate = DateTime.Now;
                 if (item.Id != 0)
                 {
-                    item.ModifiedDate = DateTime.Now;
                     database.Update(item);
                     return item.Id;
                 }
                 else
                 {
-                    item.CreatedDate = DateTime.Now;
                     return database.Insert(item);
                 }
             }

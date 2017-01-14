@@ -131,5 +131,11 @@ namespace USCISCaseTracker.UWP.Views
             CasesListView.SelectedIndex = -1;
             SplitViewContentFrame.Navigate(typeof(HomePage));
         }
+
+        private void SettingAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            CasesListView.SelectedIndex = -1;
+            SplitViewContentFrame.Navigate(typeof(SettingsPage));
+        }
     }
 }

@@ -14,9 +14,10 @@ namespace USCISCaseTracker.Models
         private string _status;
         private string _description;
 
-        private DateTime _createdDate;
         private DateTime _modifiedDate;
-        private DateTime _lastUpdatedDate;
+        private DateTime _lastReadDate;
+        private DateTime _lastSyncedDate;
+        private DateTime _caseLastUpdatedDate;
 
         public Case()
         {
@@ -78,19 +79,10 @@ namespace USCISCaseTracker.Models
             }
         }
 
-        public DateTime CreatedDate
-        {
-            get
-            {
-                return _createdDate;
-            }
-            set
-            {
-                _createdDate = value;
-            }
-        }
-
-        public DateTime ModifiedDate
+        /// <summary>
+        /// Case last modified during synchronization or by user.
+        /// </summary>
+        public DateTime LastModifiedDate
         {
             get
             {
@@ -102,15 +94,42 @@ namespace USCISCaseTracker.Models
             }
         }
 
+        /// <summary>
+        /// Timestamp when the user has last opened the case.
+        /// </summary>
+        public DateTime LastReadDate
+        {
+            get
+            {
+                return _lastReadDate;
+            }
+            set
+            {
+                _lastReadDate = value;
+            }
+        }
+
+        public DateTime CaseLastUpdateDate
+        {
+            get
+            {
+                return _caseLastUpdatedDate;
+            }
+            set
+            {
+                _caseLastUpdatedDate = value;
+            }
+        }
+
         public DateTime LastSyncedDate
         {
             get
             {
-                return _lastUpdatedDate;
+                return _lastSyncedDate;
             }
             set
             {
-                _lastUpdatedDate = value;
+                _lastSyncedDate = value;
             }
         }
     }
