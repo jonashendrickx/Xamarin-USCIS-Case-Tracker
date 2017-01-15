@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using USCISCaseTracker.Common;
 using USCISCaseTracker.Models;
+using USCISCaseTracker.Repositories;
 
 namespace USCISCaseTracker.Services
 {
@@ -53,10 +54,10 @@ namespace USCISCaseTracker.Services
                 ReceiptNumber = receipt_number,
                 Status = caseStatus,
                 Description = caseDescription,
+                LastModifiedDate = DateTime.Now,
                 LastSyncedDate = DateTime.Now
             };
             return uscisCase;
         }
     }
-
 }

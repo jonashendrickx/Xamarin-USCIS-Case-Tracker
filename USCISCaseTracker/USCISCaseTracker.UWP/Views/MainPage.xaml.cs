@@ -7,7 +7,7 @@ using USCISCaseTracker.UWP.ViewModels;
 using USCISCaseTracker.UWP.ViewModels.CaseViewModels;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-
+using Windows.UI.Xaml.Navigation;
 
 namespace USCISCaseTracker.UWP.Views
 {
@@ -18,12 +18,16 @@ namespace USCISCaseTracker.UWP.Views
     {
         public MainPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
             ViewModel = new MainPageViewModel();
             DataContext = ViewModel;
             CasesListView.ItemsSource = ViewModel.Cases;
 
-            SplitViewContentFrame.Navigate(typeof(HomePage));
+            SplitViewContentFrame.Navigate(typeof(DashboardPage));
         }
 
         public MainPageViewModel ViewModel
@@ -93,19 +97,16 @@ namespace USCISCaseTracker.UWP.Views
                     continue;
                 }
 
-                c.Status = onlineCase.Status;
-                c.Description = onlineCase.Description;
-                c.LastSyncedDate = onlineCase.LastSyncedDate;
-
                 var repo = new CaseRepository(LocalDbConnectionService.Connect());
-                var rows = repo.Save(c);
+                var success = repo.Save(c, onlineCase);
 
-                if (rows > 0)
+                if (success)
                 {
                     // update success
                     System.Diagnostics.Debug.WriteLine(string.Format("{0} ::: {1} ::: {2} ::: {3}", c.Name, c.ReceiptNumber, c.Status, c.Description));
                 }
             }
+
         }
 
         private void CasesListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -120,7 +121,7 @@ namespace USCISCaseTracker.UWP.Views
             }
             else
             {
-                SplitViewContentFrame.Navigate(typeof(HomePage));
+                SplitViewContentFrame.Navigate(typeof(DashboardPage));
                 DeleteAppBarButton.Visibility = Visibility.Collapsed;
 
             }
@@ -129,7 +130,7 @@ namespace USCISCaseTracker.UWP.Views
         private void HomeButton_Click(object sender, RoutedEventArgs e)
         {
             CasesListView.SelectedIndex = -1;
-            SplitViewContentFrame.Navigate(typeof(HomePage));
+            SplitViewContentFrame.Navigate(typeof(DashboardPage));
         }
 
         private void SettingAppBarButton_Click(object sender, RoutedEventArgs e)

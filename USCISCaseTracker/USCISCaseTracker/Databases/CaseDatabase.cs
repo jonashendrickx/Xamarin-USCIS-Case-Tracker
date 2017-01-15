@@ -12,7 +12,6 @@ namespace USCISCaseTracker.Databases
     {
         static object locker = new object();
         public SQLiteConnection database;
-        public string path;
 
         public CaseDatabase(SQLiteConnection connection)
         {
@@ -41,7 +40,6 @@ namespace USCISCaseTracker.Databases
         {
             lock (locker)
             {
-                item.LastModifiedDate = DateTime.Now;
                 if (item.Id != 0)
                 {
                     database.Update(item);
@@ -54,11 +52,89 @@ namespace USCISCaseTracker.Databases
             }
         }
 
+        public bool SaveItem(Case oldCase, Case newCase)
+        {
+            oldCase.LastSyncedDate = DateTime.Now;
+            if (oldCase.Status != null && oldCase.Description != null)
+            {
+                if (!oldCase.Status.Equals(newCase.Status) || !oldCase.Description.Equals(newCase.Description))
+                {
+                    oldCase.Status = newCase.Status;
+                    oldCase.Description = newCase.Description;
+                    oldCase.LastModifiedDate = DateTime.Now;
+                }
+            }
+            else
+            {
+                oldCase.Status = newCase.Status;
+                oldCase.Description = newCase.Description;
+                oldCase.LastModifiedDate = DateTime.Now;
+            }
+
+            lock (locker)
+            {
+                var id = database.Update(oldCase);
+                if (id != 0)
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
+
         public int DeleteItem(int id)
         {
             lock (locker)
             {
                 return database.Delete<Case>(id);
+            }
+        }
+
+        public int GetCount()
+        {
+            lock (locker)
+            {
+                return (from i in database.Table<Case>() select i).Count();
+            }
+        }
+
+        public int GetUnreadCount()
+        {
+            lock (locker)
+            {
+                return (from i in database.Table<Case>() where i.LastReadDate < i.LastModifiedDate select i).Count();
+            }
+        }
+
+        public DateTime GetLastSynchronizedTime()
+        {
+            lock (locker)
+            {
+                if (GetCount() > 0)
+                    return database.Table<Case>().Max(x => x.LastSyncedDate);
+                return new DateTime(1, 1, 1, 0, 0, 0);
+            }
+        }
+
+        public DateTime GetLastUpdatedTime()
+        {
+            lock (locker)
+            {
+                if (GetCount() > 0)
+                    return database.Table<Case>().Max(x => x.LastModifiedDate);
+                return new DateTime(1, 1, 1, 0, 0, 0);
+            }
+        }
+
+        public void SaveLastReadTime(Case item)
+        {
+            lock (locker)
+            {
+                item.LastReadDate = DateTime.Now;
+                if (item.Id != 0)
+                {
+                    database.Update(item);
+                }
             }
         }
     }

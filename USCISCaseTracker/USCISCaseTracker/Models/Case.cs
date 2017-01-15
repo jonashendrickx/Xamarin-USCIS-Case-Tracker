@@ -10,14 +10,13 @@ namespace USCISCaseTracker.Models
     public class Case
     {
         private string _name;
-        private string _receipt_number;
+        private string _receiptNumber;
         private string _status;
         private string _description;
 
         private DateTime _modifiedDate;
         private DateTime _lastReadDate;
         private DateTime _lastSyncedDate;
-        private DateTime _caseLastUpdatedDate;
 
         public Case()
         {
@@ -47,11 +46,11 @@ namespace USCISCaseTracker.Models
         {
             get
             {
-                return _receipt_number;
+                return _receiptNumber;
             }
             set
             {
-                _receipt_number = value;
+                _receiptNumber = value;
             }
         }
 
@@ -80,7 +79,7 @@ namespace USCISCaseTracker.Models
         }
 
         /// <summary>
-        /// Case last modified during synchronization or by user.
+        /// Case last modified during synchronization or by user. Or for future modifications (for example renames)
         /// </summary>
         public DateTime LastModifiedDate
         {
@@ -109,18 +108,9 @@ namespace USCISCaseTracker.Models
             }
         }
 
-        public DateTime CaseLastUpdateDate
-        {
-            get
-            {
-                return _caseLastUpdatedDate;
-            }
-            set
-            {
-                _caseLastUpdatedDate = value;
-            }
-        }
-
+        /// <summary>
+        /// Every time we check for updates, this timestamp is updated.
+        /// </summary>
         public DateTime LastSyncedDate
         {
             get

@@ -28,14 +28,43 @@ namespace USCISCaseTracker.Repositories
             return db.GetItems();
         }
 
+        public int Count()
+        {
+            return db.GetCount();
+        }
+
+        public int UnreadCount()
+        {
+            return db.GetUnreadCount();
+        }
+
         public int Save(Case entity)
         {
             return db.SaveItem(entity);
         }
 
+        public bool Save(Case oldCase, Case newCase)
+        {
+            return db.SaveItem(oldCase, newCase);
+        }
+
         public int Delete(int id)
         {
             return db.DeleteItem(id);
+        }
+
+        public DateTime LastSynchronizedTime()
+        {
+            return db.GetLastSynchronizedTime();
+        }
+        public DateTime LastUpdatedTime()
+        {
+            return db.GetLastUpdatedTime();
+        }
+
+        public void SaveLastReadTime(Case entity)
+        {
+            db.SaveLastReadTime(entity);
         }
     }
 }

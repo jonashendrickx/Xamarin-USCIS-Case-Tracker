@@ -13,6 +13,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using USCISCaseTracker.Repositories;
+using USCISCaseTracker.UWP.Shared.Services;
 
 namespace USCISCaseTracker.UWP.Views
 {
@@ -31,6 +33,9 @@ namespace USCISCaseTracker.UWP.Views
             {
                 var myCase = (Case)e.Parameter;
                 DataContext = myCase;
+
+                var repo = new CaseRepository(LocalDbConnectionService.Connect());
+                repo.SaveLastReadTime(myCase);
             }
 
         }

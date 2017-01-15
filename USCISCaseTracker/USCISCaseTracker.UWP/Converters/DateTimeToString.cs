@@ -17,6 +17,11 @@ namespace USCISCaseTracker.UWP.Converters
             }
             else
             {
+                DateTime nullDate = new DateTime(1, 1, 1, 0, 0, 0);
+                if (DateTime.Compare(nullDate, (DateTime)value) == 0)
+                {
+                    return "Never";
+                }
                 return ((DateTime)value).ToString(@"MM\/dd\/yyyy HH:mm");
             }
         }

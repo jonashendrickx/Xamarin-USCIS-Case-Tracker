@@ -19,7 +19,7 @@
     </ContentDialog.DataContext>
 
     <StackPanel>
-        <TextBox Text="{Binding Name, Mode=TwoWay}" Header="Name" />
+        <TextBox Text="{Binding Name, Mode=TwoWay}" Header="Name" MaxLength="6" />
         <TextBox Text="{Binding ReceiptNumber, Mode=TwoWay}" Header="Receipt number" MaxLength="13" />
         <TextBlock Text="{Binding Errors[ReceiptNumber][0]}" Foreground="Red" />
     </StackPanel>

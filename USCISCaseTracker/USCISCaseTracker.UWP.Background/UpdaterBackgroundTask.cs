@@ -1,7 +1,6 @@
-﻿using SQLite;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
+
 using USCISCaseTracker.Models;
 using USCISCaseTracker.Repositories;
 using USCISCaseTracker.Services;
@@ -15,7 +14,6 @@ namespace USCISCaseTracker.UWP.Background
     public sealed class UpdaterBackgroundTask : IBackgroundTask
     {
         BackgroundTaskDeferral _deferral;
-        private static string defaultSaveLocation = "USCISCasesJSON.json";
 
         volatile bool cancelRequested = false;
         BackgroundTaskCancellationReason cancelReason = BackgroundTaskCancellationReason.Abort;
@@ -23,7 +21,7 @@ namespace USCISCaseTracker.UWP.Background
         public async void Run(IBackgroundTaskInstance taskInstance)
         {
             _deferral = taskInstance.GetDeferral();
-            taskInstance.Canceled += new BackgroundTaskCanceledEventHandler(OnCanceled);
+            taskInstance.Canceled += OnCanceled;
 
             try
             {
@@ -32,50 +30,23 @@ namespace USCISCaseTracker.UWP.Background
 
                 if (cases != null && cases.Count > 0)
                 {
-                    foreach (var c in cases)
+                    foreach (var oldCase in cases)
                     {
-                        var svc = new USCISService();
-                        var svcResult = await svc.GetCaseStatusAsync(c.ReceiptNumber);
+                        var uscisSvc = new USCISService();
+                        var newCase = await uscisSvc.GetCaseStatusAsync(oldCase.ReceiptNumber);
 
-                        var caseToUpdate = c;
-
-                        if (caseToUpdate.Status == null && caseToUpdate.Description == null)
+                        if (newCase == null)
                         {
-                            caseToUpdate.Status = svcResult.Status;
-                            caseToUpdate.Description = svcResult.Description;
-                            caseToUpdate.LastSyncedDate = svcResult.LastSyncedDate;
-
-                            var id = repo.Save(caseToUpdate);
-                            if (id == 0)
-                            {
-                                // error
-                            }
-                            else
-                            {
-                                SendToast(caseToUpdate);
-                            }
-                        }
-                        else
-                        {
-                            if (!caseToUpdate.Status.Equals(svcResult.Status) || !caseToUpdate.Description.Equals(svcResult.Description))
-                            {
-                                caseToUpdate.Status = svcResult.Status;
-                                caseToUpdate.Description = svcResult.Description;
-                                caseToUpdate.LastSyncedDate = svcResult.LastSyncedDate;
-
-                                var id = repo.Save(caseToUpdate);
-                                if (id == 0)
-                                {
-                                    // error
-                                }
-                                else
-                                {
-                                    SendToast(caseToUpdate);
-                                }
-                            }
+                            continue;
                         }
 
-                        
+                        bool success = repo.Save(oldCase, newCase);
+
+                        if (success)
+                        {
+                            System.Diagnostics.Debug.WriteLine($"{oldCase.ReceiptNumber} ::: {oldCase.Status} ::: {oldCase.Status} ::: {oldCase.Description}");
+                            SendToast(newCase);
+                        }
                     }
                 }
                 ApplicationData.Current.LocalSettings.Values["CaseUpdate"] = $"Task Update Case finished running at {DateTime.Now.ToString()}";
