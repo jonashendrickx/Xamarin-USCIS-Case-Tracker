@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="3a1231b6-661c-4197-a245-db7b1bd24515" Publisher="CN=jonas" Version="1.0.0.0" />
+  <Identity Name="65320JonasHendrickxU.S.USCISCase" Publisher="CN=C2A4EE03-235C-452B-A116-FD10250B967F" Version="1.0.1.0" />
   <mp:PhoneIdentity PhoneProductId="3a1231b6-661c-4197-a245-db7b1bd24515" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
-    <DisplayName>USCISCaseTracker.UWP</DisplayName>
-    <PublisherDisplayName>jonas</PublisherDisplayName>
+    <DisplayName>USCIS Case</DisplayName>
+    <PublisherDisplayName>Jonas Hendrickx (U.S.)</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   <Dependencies>
@@ -16,9 +16,18 @@
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="USCISCaseTracker.UWP.App">
       <uap:VisualElements DisplayName="USCIS Case Tracker" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="USCIS Case Tracker" BackgroundColor="transparent">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png">
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" ShortName="USCIS" Square310x310Logo="Assets\Square310x310Logo.jpg" Square71x71Logo="Assets\Square71x71Logo.png">
+          <uap:ShowNameOnTiles>
+            <uap:ShowOn Tile="square310x310Logo" />
+          </uap:ShowNameOnTiles>
         </uap:DefaultTile>
-        <uap:SplashScreen Image="Assets\SplashScreen.png" />
+        <uap:SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="#002247" />
+        <uap:InitialRotationPreference>
+          <uap:Rotation Preference="portrait" />
+          <uap:Rotation Preference="landscape" />
+          <uap:Rotation Preference="portraitFlipped" />
+          <uap:Rotation Preference="landscapeFlipped" />
+        </uap:InitialRotationPreference>
       </uap:VisualElements>
       <Extensions>
         <Extension Category="windows.backgroundTasks" EntryPoint="USCISCaseTracker.UWP.Background.UpdaterBackgroundTask">

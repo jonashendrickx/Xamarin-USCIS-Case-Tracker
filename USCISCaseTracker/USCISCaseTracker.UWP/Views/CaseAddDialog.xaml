@@ -4,8 +4,7 @@
     xmlns:local="using:USCISCaseTracker.UWP.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:Models="USCISCaseTracker.UWP.ViewModels.CaseViewModels"
-    xmlns:ViewModels="using:USCISCaseTracker.UWP.ViewModels.CaseViewModels"
+    xmlns:caseViewModels="using:USCISCaseTracker.UWP.ViewModels.CaseViewModels"
     x:Class="USCISCaseTracker.UWP.Views.CaseAddDialog"
     mc:Ignorable="d"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
@@ -15,7 +14,7 @@
     Title="Add case">
     
     <ContentDialog.DataContext>
-        <ViewModels:CaseAddViewModel />
+        <caseViewModels:CaseAddViewModel />
     </ContentDialog.DataContext>
 
     <StackPanel>

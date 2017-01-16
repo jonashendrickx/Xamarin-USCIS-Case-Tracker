@@ -38,9 +38,7 @@
             </StackPanel>
         </SplitView.Pane>
         <SplitView.Content>
-            <ScrollViewer>
-                <Frame Name="SplitViewContentFrame" Style="{StaticResource ContentFrameStyle}" />
-            </ScrollViewer>
+            <Frame Name="SplitViewContentFrame" Style="{StaticResource ContentFrameStyle}" />
         </SplitView.Content>
     </SplitView>
     <Page.BottomAppBar>

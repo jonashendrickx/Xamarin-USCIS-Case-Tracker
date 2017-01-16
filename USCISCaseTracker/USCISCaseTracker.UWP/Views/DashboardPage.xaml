@@ -28,6 +28,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0" Grid.Column="0" VerticalAlignment="Center">
                 <TextBlock Text="Active cases" HorizontalAlignment="Center" Style="{StaticResource BaseTextBlockStyle}" />
