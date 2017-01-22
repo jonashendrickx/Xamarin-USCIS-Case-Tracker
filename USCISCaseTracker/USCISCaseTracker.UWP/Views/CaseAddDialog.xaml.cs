@@ -14,6 +14,11 @@ namespace USCISCaseTracker.UWP.Views
 
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
+            var viewModel = (CaseAddViewModel) DataContext;
+
+            // If invalid, keep window open.
+            if (!viewModel.Errors.ValidateProperties())
+                args.Cancel = true;
         }
 
         private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)

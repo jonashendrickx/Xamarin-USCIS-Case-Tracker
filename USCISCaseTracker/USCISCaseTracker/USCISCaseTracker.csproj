@@ -37,8 +37,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\CaseRepository.cs" />
     <Compile Include="Services\ILocalDbConnectionService.cs" />
-    <Compile Include="Services\IUSCISService.cs" />
-    <Compile Include="Services\USCISService.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

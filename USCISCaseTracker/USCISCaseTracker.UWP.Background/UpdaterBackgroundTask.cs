@@ -26,26 +26,20 @@ namespace USCISCaseTracker.UWP.Background
             try
             {
                 var repo = new CaseRepository(LocalDbConnectionService.Connect());
-                List<Case> cases = (List<Case>)repo.Read();
+                var cases = (List<Case>)repo.Read();
 
                 if (cases != null && cases.Count > 0)
                 {
-                    foreach (var oldCase in cases)
+                    foreach (var c in cases)
                     {
-                        var uscisSvc = new USCISService();
-                        var newCase = await uscisSvc.GetCaseStatusAsync(oldCase.ReceiptNumber);
+                        await c.Update();
 
-                        if (newCase == null)
+                        int success = repo.Save(c);
+
+                        if (success != 0)
                         {
-                            continue;
-                        }
-
-                        bool success = repo.Save(oldCase, newCase);
-
-                        if (success)
-                        {
-                            System.Diagnostics.Debug.WriteLine($"{oldCase.ReceiptNumber} ::: {oldCase.Status} ::: {oldCase.Status} ::: {oldCase.Description}");
-                            SendToast(newCase);
+                            System.Diagnostics.Debug.WriteLine($"{c.ReceiptNumber} ::: {c.Status} ::: {c.Status} ::: {c.Description}");
+                            SendToast(c);
                         }
                     }
                 }

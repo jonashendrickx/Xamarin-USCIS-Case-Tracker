@@ -30,7 +30,7 @@
             
             <Style x:Key="SplitViewStyle" TargetType="SplitView">
                 <Setter Property="CompactPaneLength" Value="50"/>
-                <Setter Property="OpenPaneLength" Value="150" />
+                <Setter Property="OpenPaneLength" Value="250" />
                 <Setter Property="DisplayMode" Value="CompactOverlay" />
                 <Setter Property="IsPaneOpen" Value="False" />
                 <Setter Property="PaneBackground" Value="{StaticResource ResourceKey=UnitedStatesBlue}" />

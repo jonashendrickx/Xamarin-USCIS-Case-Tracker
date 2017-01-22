@@ -1,23 +1,15 @@
 ﻿using SQLite;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Net.Http;
 using System.Threading.Tasks;
+using HtmlAgilityPack;
+using USCISCaseTracker.Common;
 
 namespace USCISCaseTracker.Models
 {
     public class Case
     {
-        private string _name;
-        private string _receiptNumber;
-        private string _status;
-        private string _description;
-
-        private DateTime _modifiedDate;
-        private DateTime _lastReadDate;
-        private DateTime _lastSyncedDate;
-
         public Case()
         {
 
@@ -30,96 +22,105 @@ namespace USCISCaseTracker.Models
             set;
         }
 
-        public string Name
-        {
-            get
-            {
-                return _name;
-            }
-            set
-            {
-                _name = value;
-            }
-        }
+        public string Name { get; set; }
 
-        public string ReceiptNumber
-        {
-            get
-            {
-                return _receiptNumber;
-            }
-            set
-            {
-                _receiptNumber = value;
-            }
-        }
+        public string ReceiptNumber { get; set; }
 
-        public string Status
-        {
-            get
-            {
-                return _status;
-            }
-            set
-            {
-                _status = value;
-            }
-        }
+        public string FormType { get; set; }
 
-        public string Description
-        {
-            get
-            {
-                return _description;
-            }
-            set
-            {
-                _description = value;
-            }
-        }
+        public string Status { get; set; }
+
+        public string Description { get; set; }
 
         /// <summary>
         /// Case last modified during synchronization or by user. Or for future modifications (for example renames)
         /// </summary>
-        public DateTime LastModifiedDate
-        {
-            get
-            {
-                return _modifiedDate;
-            }
-            set
-            {
-                _modifiedDate = value;
-            }
-        }
+        public DateTime LastModifiedDate { get; set; }
 
         /// <summary>
         /// Timestamp when the user has last opened the case.
         /// </summary>
-        public DateTime LastReadDate
-        {
-            get
-            {
-                return _lastReadDate;
-            }
-            set
-            {
-                _lastReadDate = value;
-            }
-        }
+        public DateTime LastReadDate { get; set; }
 
         /// <summary>
         /// Every time we check for updates, this timestamp is updated.
         /// </summary>
-        public DateTime LastSyncedDate
+        public DateTime LastSyncedDate { get; set; }
+
+        public async Task Update()
         {
-            get
+            var httpClient = new HttpClient();
+            var uri = new Uri(string.Format(Constants.GetCaseStatusUrl, ReceiptNumber));
+            string html = null;
+            try
             {
-                return _lastSyncedDate;
+                var response = await httpClient.GetAsync(uri);
+                if (response.IsSuccessStatusCode)
+                {
+                    html = await response.Content.ReadAsStringAsync();
+                }
             }
-            set
+            catch (HttpRequestException)
             {
-                _lastSyncedDate = value;
+                return;
+            }
+
+            if (html != null)
+            {
+                var htmlDocument = new HtmlDocument();
+                htmlDocument.LoadHtml(html);
+                var appointmentNode = htmlDocument.DocumentNode.Descendants("div").FirstOrDefault(x => x.Attributes["class"].Value.Contains("appointment-sec"));
+                var contentNode = appointmentNode.Descendants("div").FirstOrDefault(x => x.Attributes["class"].Value == "rows text-center");
+
+                var isModified = false;
+
+                var newStatus = contentNode.Descendants("h1").FirstOrDefault().InnerText;
+                if (Status != null)
+                {
+                    if (!Status.Equals(newStatus))
+                    {
+                        Status = newStatus;
+                        isModified = true;
+                    }
+                }
+                else
+                {
+                    Status = newStatus;
+                    isModified = true;
+                }
+
+                var newDescription = contentNode.Descendants("p").FirstOrDefault().InnerText;
+                if (Description != null)
+                {
+                    if (!Description.Equals(newDescription))
+                    {
+                        Description = newDescription;
+                        isModified = true;
+                    }
+                }
+                else
+                {
+                    Description = newDescription;
+                    isModified = true;
+                }
+
+                if (isModified)
+                {
+                    LastModifiedDate = DateTime.Now;
+                }
+
+                if (string.IsNullOrEmpty(FormType) && !string.IsNullOrEmpty(newDescription))
+                {
+                    var pieces = newDescription.Split(',');
+                    string yourForm = "your Form ";
+                    if (pieces[2].Contains(yourForm))
+                    {
+                        var index = pieces[2].IndexOf(yourForm, StringComparison.Ordinal);
+                        FormType = pieces[2].Substring(index + yourForm.Length);
+                    }
+                }
+
+                LastSyncedDate = DateTime.Now;
             }
         }
     }

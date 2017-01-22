@@ -1,9 +1,6 @@
 ﻿using SQLite;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using USCISCaseTracker.Databases;
 using USCISCaseTracker.Models;
 
@@ -41,11 +38,6 @@ namespace USCISCaseTracker.Repositories
         public int Save(Case entity)
         {
             return db.SaveItem(entity);
-        }
-
-        public bool Save(Case oldCase, Case newCase)
-        {
-            return db.SaveItem(oldCase, newCase);
         }
 
         public int Delete(int id)

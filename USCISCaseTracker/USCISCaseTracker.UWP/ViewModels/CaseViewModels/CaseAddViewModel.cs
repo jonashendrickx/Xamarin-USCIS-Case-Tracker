@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using USCISCaseTracker.Models;
@@ -21,6 +22,7 @@ namespace USCISCaseTracker.UWP.ViewModels.CaseViewModels
 
         }
 
+        [Required]
         public string Name
         {
             get { return _name; }
@@ -30,7 +32,8 @@ namespace USCISCaseTracker.UWP.ViewModels.CaseViewModels
             }
         }
 
-        [RegularExpression(@"^[A-Z]{3}[0-9]{10}$")]
+        [RegularExpression(@"^[A-Z]{3}[0-9]{10}$", ErrorMessage = "Receipt number must be in format 'ABC0123456789'")]
+        [Required]
         public string ReceiptNumber
         {
             get

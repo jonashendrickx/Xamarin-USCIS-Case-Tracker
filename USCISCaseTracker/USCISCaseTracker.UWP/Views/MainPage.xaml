@@ -18,10 +18,10 @@
                     <Button Width="50" Height="50" Click="HamburgerButton_Click" Grid.Column="0" Foreground="White" Background="Transparent" Content="&#xE700;" FontFamily="Segoe MDL2 Assets">
                     </Button>
 
-                    <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="1" Click="HomeButton_Click" Background="Transparent">
+                    <Button HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalAlignment="Stretch" Grid.Column="1" Click="HomeButton_Click" Background="Transparent">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE80F;" Style="{StaticResource SplitViewTextBlockStyle}" />
-                            <TextBlock Text="Home" Grid.Column="1" Margin="10,0,0,0" Style="{StaticResource SplitViewTextBlockStyle}" />
+                            <TextBlock Text="Home" Margin="10,0,0,0" Style="{StaticResource SplitViewTextBlockStyle}" />
                         </StackPanel>
                     </Button>
                 </Grid>
@@ -29,8 +29,9 @@
                 <ListView x:Name="CasesListView" Margin="50,0,0,0" SelectionChanged="CasesListView_SelectionChanged">
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel>
-                                <TextBlock FontSize="18" VerticalAlignment="Center" Text="{Binding Name}" Foreground="White"/>
+                            <StackPanel Orientation="Vertical" Padding="0,10,0,10">
+                                <TextBlock VerticalAlignment="Center" Text="{Binding Name}" Foreground="White" Style="{StaticResource BodyTextBlockStyle}" />
+                                <TextBlock VerticalAlignment="Center" Text="{Binding FormType}" Foreground="LightGray" Margin="10,0,0,0" FontWeight="Light" Style="{StaticResource BodyTextBlockStyle}" />
                             </StackPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>

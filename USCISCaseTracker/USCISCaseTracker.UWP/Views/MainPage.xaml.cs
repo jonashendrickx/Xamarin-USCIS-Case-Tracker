@@ -64,7 +64,8 @@ namespace USCISCaseTracker.UWP.Views
 
                 if (newCase.Id != 0)
                 {
-                    ViewModel.Cases.Add(newCase);
+                    ViewModel.LoadLocalCases();
+                    CasesListView.ItemsSource = ViewModel.Cases;
                 }
             }
         }
@@ -89,21 +90,15 @@ namespace USCISCaseTracker.UWP.Views
         {
             foreach (var c in ViewModel.Cases)
             {
-                var uscisSvc = new USCISService();
-                var onlineCase = await uscisSvc.GetCaseStatusAsync(c.ReceiptNumber);
-
-                if (onlineCase == null)
-                {
-                    continue;
-                }
+                await c.Update();
 
                 var repo = new CaseRepository(LocalDbConnectionService.Connect());
-                var success = repo.Save(c, onlineCase);
+                int success = repo.Save(c);
 
-                if (success)
+                if (success != 0)
                 {
                     // update success
-                    System.Diagnostics.Debug.WriteLine(string.Format("{0} ::: {1} ::: {2} ::: {3}", c.Name, c.ReceiptNumber, c.Status, c.Description));
+                    System.Diagnostics.Debug.WriteLine($"{c.Name} ::: {c.ReceiptNumber} ::: {c.Status} ::: {c.Description}");
                 }
             }
 
