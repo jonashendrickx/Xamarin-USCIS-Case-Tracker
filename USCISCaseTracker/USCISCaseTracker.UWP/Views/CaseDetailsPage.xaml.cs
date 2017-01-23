@@ -33,9 +33,6 @@ namespace USCISCaseTracker.UWP.Views
             {
                 var myCase = (Case)e.Parameter;
                 DataContext = myCase;
-
-                var repo = new CaseRepository(LocalDbConnectionService.Connect());
-                repo.SaveLastReadTime(myCase);
             }
 
         }

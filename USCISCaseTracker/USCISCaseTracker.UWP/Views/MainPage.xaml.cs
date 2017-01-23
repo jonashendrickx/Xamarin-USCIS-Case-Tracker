@@ -102,6 +102,8 @@ namespace USCISCaseTracker.UWP.Views
                 }
             }
 
+            ViewModel.LoadLocalCases();
+            CasesListView.ItemsSource = ViewModel.Cases;
         }
 
         private void CasesListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -112,6 +114,19 @@ namespace USCISCaseTracker.UWP.Views
             {
                 SplitViewContentFrame.Navigate(typeof(CaseDetailsPage), c);
                 DeleteAppBarButton.Visibility = Visibility.Visible;
+
+                var repo = new CaseRepository(LocalDbConnectionService.Connect());
+                repo.SaveLastReadTime(c);
+
+
+                var index = CasesListView.SelectedIndex;
+                CasesListView.SelectionChanged -= CasesListView_SelectionChanged;
+
+                ViewModel.LoadLocalCases();
+                CasesListView.ItemsSource = ViewModel.Cases;
+
+                CasesListView.SelectedIndex = index;
+                CasesListView.SelectionChanged += CasesListView_SelectionChanged;
 
             }
             else
@@ -128,7 +143,7 @@ namespace USCISCaseTracker.UWP.Views
             SplitViewContentFrame.Navigate(typeof(DashboardPage));
         }
 
-        private void SettingAppBarButton_Click(object sender, RoutedEventArgs e)
+        private void SettingButton_Click(object sender, RoutedEventArgs e)
         {
             CasesListView.SelectedIndex = -1;
             SplitViewContentFrame.Navigate(typeof(SettingsPage));

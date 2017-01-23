@@ -97,6 +97,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\DateTimeToString.cs" />
+    <Compile Include="Converters\ReadToIconText.cs" />
     <Compile Include="Services\BackgroundService.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>

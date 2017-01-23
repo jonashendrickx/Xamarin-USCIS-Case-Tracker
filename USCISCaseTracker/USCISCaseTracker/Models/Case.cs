@@ -47,6 +47,11 @@ namespace USCISCaseTracker.Models
         /// </summary>
         public DateTime LastSyncedDate { get; set; }
 
+        public bool IsRead
+        {
+            get { return LastReadDate.CompareTo(LastModifiedDate) >= 0; }
+        }
+
         public async Task Update()
         {
             var httpClient = new HttpClient();

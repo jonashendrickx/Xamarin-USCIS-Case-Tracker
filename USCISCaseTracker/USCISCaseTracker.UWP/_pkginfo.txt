@@ -1,1 +1,1 @@
-C:\Users\jonas\Documents\Visual Studio 2015\Projects\Xamarin USCIS Case Tracker\USCISCaseTracker\USCISCaseTracker.UWP\AppPackages\USCISCaseTracker.UWP_1.0.2.0\USCISCaseTracker.UWP_1.0.2.0_x86_x64_arm.appxbundle
+C:\Users\jonas\documents\visual studio 2015\Projects\Xamarin USCIS Case Tracker\USCISCaseTracker\USCISCaseTracker.UWP\AppPackages\USCISCaseTracker.UWP_1.0.4.0\USCISCaseTracker.UWP_1.0.4.0_x86_x64_arm.appxbundle
