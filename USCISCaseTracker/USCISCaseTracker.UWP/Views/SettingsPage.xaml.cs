@@ -1,46 +1,53 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.WindowsRuntime;
 using USCISCaseTracker.UWP.Shared;
 using Windows.ApplicationModel.Background;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
+using USCISCaseTracker.UWP.Background;
+using USCISCaseTracker.UWP.ViewModels;
 
 namespace USCISCaseTracker.UWP.Views
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class SettingsPage : Page
     {
         private BackgroundAccessStatus _backgroundAccessStatus = BackgroundAccessStatus.Unspecified;
+        private readonly ApplicationDataContainer _localSettings;
 
         public SettingsPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+
+            _localSettings = ApplicationData.Current.LocalSettings;
         }
+
+        public SettingsPageViewModel ViewModel => (SettingsPageViewModel) DataContext;
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            ComboBoxIntervals.ItemsSource = ViewModel.BackgroundUpdateIntervals;
+
             if (BackgroundTaskExists(BackgroundTasksConfiguration.CaseUpdaterBackgroundTaskName))
             {
                 AllowBackgroundUpdatesCheckBox.IsChecked = true;
+                ComboBoxIntervals.IsEnabled = false;
             }
             else
             {
                 AllowBackgroundUpdatesCheckBox.IsChecked = false;
+                ComboBoxIntervals.IsEnabled = true;
+            }
+
+            if (_localSettings.Values["background_update_interval"] != null)
+            {
+                var index = ViewModel.BackgroundUpdateIntervals.FindIndex(o => o.Value == (uint)_localSettings.Values["background_update_interval"]);
+                ComboBoxIntervals.SelectedIndex = index;
+            }
+            else
+            {
+                ComboBoxIntervals.SelectedIndex = 0;
             }
         }
 
@@ -75,10 +82,16 @@ namespace USCISCaseTracker.UWP.Views
             SystemCondition lowCpu = new SystemCondition(SystemConditionType.BackgroundWorkCostNotHigh);
             builder.AddCondition(internetCondition);
             builder.AddCondition(lowCpu);
-            var timeTrigger = new TimeTrigger(180, false);
-            builder.SetTrigger(timeTrigger);
+            var interval = (BackgroundUpdateInterval) ComboBoxIntervals.SelectedItem;
+            if (interval != null)
+            {
+                var timeTrigger = new TimeTrigger(interval.Value, false);
+                builder.SetTrigger(timeTrigger);
+            }
 
             builder.Register();
+
+            ComboBoxIntervals.IsEnabled = false;
         }
 
         private async void AllowBackgroundUpdatesCheckBox_Unchecked(object sender, RoutedEventArgs e)
@@ -108,6 +121,8 @@ namespace USCISCaseTracker.UWP.Views
                     break;
                 }
             }
+
+            ComboBoxIntervals.IsEnabled = true;
         }
 
         private bool BackgroundTaskExists(string name)
@@ -120,6 +135,15 @@ namespace USCISCaseTracker.UWP.Views
                 }
             }
             return false;
+        }
+
+        private void ComboBoxIntervals_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ComboBoxIntervals.SelectedItem != null)
+            {
+                var selectedBackgroundUpdateInterval = (BackgroundUpdateInterval) ComboBoxIntervals.SelectedItem;
+                _localSettings.Values["background_update_interval"] = selectedBackgroundUpdateInterval.Value;
+            }
         }
     }
 }

@@ -105,6 +105,7 @@
     <Compile Include="ViewModels\CaseViewModels\CaseAddViewModel.cs" />
     <Compile Include="ViewModels\DashboardPageViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
+    <Compile Include="ViewModels\SettingsPageViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\CaseAddDialog.xaml.cs">
       <DependentUpon>CaseAddDialog.xaml</DependentUpon>
